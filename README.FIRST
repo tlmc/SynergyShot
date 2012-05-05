@@ -1,0 +1,8 @@
+To install run ./SynergyShot-ng (After install use "synergyshot-config" to get into the prompt)
+Simply add a keyboard shortcut, I like to use SUPER+S you can use anything you like, Quite easy 
+to install and this will just upload to your sftp. :)
+
+CREDITS: 
+XDK2.NET - We modified 90% of there script which is called "shooter" on SynergyShot 
+Tom Mcloughlin - Created ./SynergyShot-ng and ./install.sh and 90% of ./shooter
+

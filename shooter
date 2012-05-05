@@ -1,0 +1,55 @@
+#!/bin/bash
+# Please edit this entire config.
+sshserver="ftp.example.com"
+sshuser="exampleuser"
+sshport="22"
+uploadpath="/var/www/screenshot"
+uploadsite="http://example.com/screenshot"
+nstyle="date62"
+# End of Config you should stop editing now.
+
+function base62 {
+char=( {0..9} {a..z} {A..Z} )
+str=''
+data=$1
+while [ $data -gt 0 ]; do
+i=$(($data % 62))
+str="${char[$i]}${str}"
+data=$((($data - $i) / 62))
+done
+sstring="$str.png"
+}
+
+case $nstyle in
+date )
+sstring="`date +%d_%m_%y_%H_%M_%S.png`"
+;;
+date62 )
+base62 `date +%s`
+;;
+random62 )
+base62 `shuf -i 10000000-9999999999 -n 1`
+;;
+esac
+
+case $1 in
+select )
+sleep 1
+scrot "/tmp/$sstring" -s -b
+;;
+* )
+scrot "/tmp/$sstring"
+;;
+esac
+if [ ! -f "/tmp/$sstring" ]; then
+notify-send "Error: no image was saved"
+exit
+fi
+notify-send "Uploading image"
+scp -P $sshport "/tmp/$sstring" "$sshuser@$sshserver:$uploadpath"
+rm "/tmp/$sstring"
+echo -n "$uploadsite$sstring" | xclip -selection p␊
+echo -n "$uploadsite$sstring" | xclip -selection s
+echo -n "$uploadsite$sstring" | xclip -selection c
+notify-send "Successfully uploaded to $uploadsite$sstring and copied to clipboard"
+echo "$uploadsite$sstring"

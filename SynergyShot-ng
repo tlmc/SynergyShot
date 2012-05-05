@@ -1,0 +1,39 @@
+#!/bin/bash
+cat ./Loader
+echo -e "\033[0;32m(1) Run the Install"
+echo -e "\033[0;32m(2) Open Configuration (Requires sudo)"
+echo -e "\033[0;32m(3) Configure the Hotkey"
+echo -e "\033[0;32m(4) Uninstall"
+echo -e "\033[0;34mWhat would you like to do? ==>"
+read selection
+if [ "$selection" = "1" ]; then
+  echo "Installing..."
+  sudo sh ./install.sh
+  sleep 10
+  echo "Done"
+  echo "Press CTRL+C to exit" 
+else 
+if [ "$selection" = "2" ]; then
+	echo "All the upload sites are stored in shooter, I will now open that file for you"
+	sudo nano /usr/bin/shooter
+	echo "Cool you're done now you can continue to use this program with your selected upload service"
+else 
+if [ "$selection" = "3" ]; then
+	echo "Right! Lets get a hotkey configured!"
+	echo "In GNOME:"
+	echo "System > Preferences > Keyboard shortcuts"
+	echo "Click Add"
+	echo "Associate your desired keyboard shortcut with the command - synergyshot"
+	echo "For other Desktop Enviroments we suggest asking Google, Sorry!"
+else 
+if [ "$selection" = "4" ]; then
+	echo "Uninstalling..." 
+	sudo rm -rf /usr/bin/synergysync
+	echo "Done"
+	exit
+else 
+	./SynergyShot-ng
+fi
+fi
+fi
+fi
